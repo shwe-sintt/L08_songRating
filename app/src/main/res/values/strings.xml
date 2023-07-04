@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">L08_songRating</string>
+    <string name="title">Song Title</string>
+    <string name="titleHint">Enter song title here</string>
+    <string name="singer">Singers</string>
+    <string name="singerHint">Enter singers\' name here</string>
+    <string name="year">Year</string>
+    <string name="yearHint">Enter year of release here</string>
+    <string name="stars">Stars</string>
+</resources>
