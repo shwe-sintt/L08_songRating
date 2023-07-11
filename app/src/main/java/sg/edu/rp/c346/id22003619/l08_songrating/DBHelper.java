@@ -65,6 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<String> tasks = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGERS,COLUMN_YEAR,COLUMN_STARS};
+
         Cursor cursor = db.query(TABLE_SONG, columns, null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             // Loop while moveToNext() points to next row
@@ -84,7 +85,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return tasks;
     }
 
+    public ArrayList<Song> get5starSong(Integer num) {
+        ArrayList<Song> tasks = new ArrayList<Song>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGERS,COLUMN_YEAR,COLUMN_STARS};
+        num=5;
+        String condition = COLUMN_STARS+"Like ?";
+        String[] args= {String.valueOf(num)};
+        Cursor cursor = db.query(TABLE_SONG, columns, condition, args, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String noteContent = cursor.getString(1);
+                //Song song = new Song(id,title,singer,year,stars);
+                //tasks.add(song);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
 
+        return tasks;
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {

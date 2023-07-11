@@ -2,6 +2,7 @@ package sg.edu.rp.c346.id22003619.l08_songrating;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,6 @@ EditText etSinger;
 EditText etYear;
 RadioGroup rg;
 RadioButton rbStar;
-ListView lvSongs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,6 @@ ListView lvSongs;
         etSinger=findViewById(R.id.etSinger);
         etYear=findViewById(R.id.etYear);
         rg=findViewById(R.id.rg);
-        lvSongs=findViewById(R.id.lv);
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -61,21 +60,18 @@ ListView lvSongs;
 
             }
         });
-        btnShow.setOnClickListener(v -> {
-                DBHelper db = new DBHelper(MainActivity.this);
-                ArrayList<String> data=db.getSongContent();
-                ArrayList<Song> data2=db.getSongs();
-                db.close();
-                String txt="";
-                for (int i = 0; i < data.size(); i++) {
-                    Log.d("Database Content", i +". "+data.get(i));
-                    txt += i + ". " + data.get(i) + "\n";
-                }
-                //tvResults.setText(txt);
-                ArrayAdapter adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,data2);
-                lvSongs.setAdapter(adapter);
+        btnShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Song target = lvSongs.get(0);
 
+                Intent i = new Intent(MainActivity.this,
+                        SecondActivity.class);
+//                i.putExtra("Song", target);
+                startActivity(i);
+            }
         });
+
     }
 
 }
