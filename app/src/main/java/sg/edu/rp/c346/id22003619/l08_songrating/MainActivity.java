@@ -3,6 +3,7 @@ package sg.edu.rp.c346.id22003619.l08_songrating;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,7 +58,16 @@ RadioButton rbStar;
                 Integer intYear= Integer.parseInt(etYear.getText().toString());
                 Integer intStar= Integer.parseInt(rbStar.getText().toString());
                 db.insertSong(strTitle, strSinger,intYear,intStar);
+                long insertedId = db.insertSong(strTitle, strSinger, intYear, intStar);
 
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong("id", insertedId);
+                editor.putString("title", strTitle);
+                editor.putString("singers", strSinger);
+                editor.putInt("year", intYear);
+                editor.putInt("rating", intStar);
+                editor.commit();
             }
         });
         btnShow.setOnClickListener(new View.OnClickListener() {

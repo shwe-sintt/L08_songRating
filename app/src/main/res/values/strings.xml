@@ -9,4 +9,8 @@
     <string name="yearHint">Enter year of release here</string>
     <string name="stars">Stars</string>
     <string name="show5stars">Show all songs with 5 stars</string>
+    <string name="id">ID</string>
+    <string name="update">UPDATE</string>
+    <string name="delete">DELETE</string>
+    <string name="cancel">Cancel</string>
 </resources>

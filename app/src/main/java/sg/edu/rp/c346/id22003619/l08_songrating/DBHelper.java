@@ -25,8 +25,28 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(@Nullable Context context){
         super(context, DATABASE_NAME, null, DATABASE_VER);
     }
-
-    public void insertSong(String title, String singers, Integer year, Integer stars ){
+    public int updateSong(Song data){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, data.getTitle());
+        values.put(COLUMN_SINGERS, data.getSingers());
+        values.put(COLUMN_YEAR, data.getYear());
+        values.put(COLUMN_STARS, data.getStar());
+        String condition = COLUMN_ID + "= ?";
+        String[] args = { String.valueOf(data.getId()) };
+        int result = db.update(TABLE_SONG, values, condition, args);
+        db.close();
+        return result;
+    }
+    public int deleteSong(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String condition = COLUMN_ID + "= ?";
+        String[] args = {String.valueOf(id)};
+        int result = db.delete(TABLE_SONG, condition, args);
+        db.close();
+        return result;
+    }
+    public long insertSong(String title, String singers, Integer year, Integer stars ){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -34,8 +54,14 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_SINGERS, singers);
         values.put(COLUMN_YEAR, year);
         values.put(COLUMN_STARS, stars);
-        db.insert(TABLE_SONG, null, values);
+        long id = db.insert(TABLE_SONG, null, values);
+        if (id == -1) {
+            Log.d("DBHelper", "Error inserting song: " + title);
+        } else {
+            Log.d("DBHelper", "Song inserted successfully: " + title);
+        }
         db.close();
+        return id;
     }
 
     public ArrayList<Song> getSongs() {
@@ -61,29 +87,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<String> getSongContent() {
-        ArrayList<String> tasks = new ArrayList<String>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGERS,COLUMN_YEAR,COLUMN_STARS};
 
-        Cursor cursor = db.query(TABLE_SONG, columns, null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            // Loop while moveToNext() points to next row
-            //  and returns true; moveToNext() returns false
-            //  when no more next row to move to
-            do {
-                // Add the task content to the ArrayList object
-                //  getString(0) retrieves first column data
-                //  getString(1) return second column data
-                //  getInt(0) if data is an integer value
-                tasks.add(cursor.getString(1));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
 
-        return tasks;
-    }
 
     public ArrayList<Song> get5starSong(Integer num) {
         ArrayList<Song> tasks = new ArrayList<Song>();
