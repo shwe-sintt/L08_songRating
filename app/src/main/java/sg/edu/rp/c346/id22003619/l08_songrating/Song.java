@@ -27,11 +27,18 @@ public class Song implements Serializable {
 
     public int getYear(){ return year;}
 
-    public int getStar(){ return stars;}
-    public void setTitle(String title){ this.title=title; }
-    public void setSingers(String singers){ this.singers=singers; }
-    public void setYear(int year){ this.year=year; }
-    public void setStars(int stars){ this.stars=stars; }
+    public int getStar(){return stars;}
+    public String prettyStar(){
+        String star="*".repeat(stars);
+        return star;
+    }
+    public void setSongContent(String title, String singers, int year, int stars) {
+        this.title = title;
+        this.singers = singers;
+        this.year = year;
+        this.stars = stars;
+    }
+
 
     @NonNull
     @Override

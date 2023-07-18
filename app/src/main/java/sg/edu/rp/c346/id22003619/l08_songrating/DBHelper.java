@@ -86,17 +86,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return tasks;
     }
 
-
-
-
-
-    public ArrayList<Song> get5starSong(Integer num) {
+    public ArrayList<Song> get5starSong() {
         ArrayList<Song> tasks = new ArrayList<Song>();
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGERS,COLUMN_YEAR,COLUMN_STARS};
-        num=5;
-        String condition = COLUMN_STARS+"Like ?";
-        String[] args= {String.valueOf(num)};
+        String condition = COLUMN_STARS+" Like ?";
+        String[] args= {"5"};
         Cursor cursor = db.query(TABLE_SONG, columns, condition, args, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
